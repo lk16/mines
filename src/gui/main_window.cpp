@@ -8,7 +8,6 @@ main_window::main_window():
 {
   init_ui();
   control.game_reset();
-  update_fields();
   show_all_children();
 }
 
@@ -121,7 +120,7 @@ void main_window::update_fields()
         imagefile = "closed.png";
         break;
       case FIELD_FLAGGED:
-        imagefile = "flagged.png";
+        imagefile = "flag.png";
         break;
       case FIELD_OPENED:
         if(control.is_mine(x,y)){

@@ -9,7 +9,7 @@ game_control::game_control(main_window* _mw):
   mine_count = DEFAULT_MINE_COUNT;
   field_state = new int[width*height];
   srand(std::time(NULL));
-  game_reset();
+  // no game_reset here, this is being done in main_window ctor
 }
 
 game_control::~game_control()
@@ -38,6 +38,7 @@ void game_control::game_reset()
   for(int i=0;i<(width*height);++i){
     field_state[i] = FIELD_CLOSED;
   }
+  mw->update_fields();
 }
 
 void game_control::toggle_flagged(int x, int y)
@@ -47,10 +48,16 @@ void game_control::toggle_flagged(int x, int y)
   }
   int* target = &field_state[x + width*y];
   switch(*target){
-    case FIELD_OPENED: return;
-    case FIELD_CLOSED: *target = FIELD_FLAGGED;
-    case FIELD_FLAGGED: *target = FIELD_CLOSED;
-    default: CRASH;
+    case FIELD_OPENED: 
+      return;
+    case FIELD_CLOSED: 
+      *target = FIELD_FLAGGED; 
+      break;
+    case FIELD_FLAGGED: 
+      *target = FIELD_CLOSED;
+      break;
+    default: 
+      CRASH;
   }
 }
 

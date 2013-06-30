@@ -36,10 +36,12 @@ public:
   void open_field(int x,int y);
   int get_state(int x,int y) const;
   
+  
   int get_height() const;
   int get_width() const;
   int get_mine_count() const;
   int get_neighbour_mine_count(int x,int y) const;
+  int get_neighbour_flag_count(int x,int y) const;
   
 };
 
