@@ -7,6 +7,7 @@ game_control::game_control(main_window* _mw):
   width = DEFAULT_WIDTH;
   height = DEFAULT_HEIGHT;
   mine_count = DEFAULT_MINE_COUNT;
+  game_state = GAME_RESET;
   field_state = new int[width*height];
   srand(std::time(NULL));
   // no game_reset here, this is being done in main_window ctor
@@ -15,17 +16,6 @@ game_control::game_control(main_window* _mw):
 game_control::~game_control()
 {
   delete field_state;
-}
-
-
-void game_control::die()
-{
-  dead = true;
-}
-
-bool game_control::is_dead() const
-{
-  return dead;
 }
 
 void game_control::game_reset()
@@ -39,11 +29,12 @@ void game_control::game_reset()
     field_state[i] = FIELD_CLOSED;
   }
   mw->update_fields();
+  game_state = GAME_RESET;
 }
 
 void game_control::toggle_flagged(int x, int y)
 {
-  if(x<0 || y<0 || x>=width || y>=height){
+  if(x<0 || y<0 || x>=width || y>=height || game_state!=GAME_STARTED){
     return;
   }
   int* target = &field_state[x + width*y];
@@ -69,31 +60,53 @@ bool game_control::is_mine(int x, int y) const
   return mines.find(x + width*y) != mines.end();
 }
 
-int game_control::get_state(int x, int y) const
+int game_control::get_field_state(int x, int y) const
 {
   return field_state[x + width*y];
 }
 
 void game_control::open_field(int x, int y)
 {
+  switch(game_state){
+    case GAME_RESET: 
+      game_state = GAME_STARTED;
+      break;
+    case GAME_LOSE:
+    case GAME_WIN:
+      return; // do nothing
+    case GAME_STARTED: 
+      break; // listed for completeness 
+  }
   if(x<0 || y<0 || x>=width || y>=height){
     return;
   }
   int* target = &field_state[x + width*y];
-  if(*target != FIELD_CLOSED){
-    return;
-  }
-  *target = FIELD_OPENED;
-  if(get_neighbour_mine_count(x,y)==0){
-    for(int dx=-1;dx<=1;dx++){
-      for(int dy=-1;dy<=1;dy++){
-        open_field(x+dx,y+dy);
+  switch(*target){
+    case FIELD_CLOSED:
+      *target = FIELD_OPENED;
+      if(is_mine(x,y)){
+        game_state = GAME_LOSE;
+        return;
       }
-    }
+      if(get_neighbour_mine_count(x,y)==0){
+        for(int dx=-1;dx<=1;dx++){
+          for(int dy=-1;dy<=1;dy++){
+            open_field(x+dx,y+dy);
+          }
+        }
+      }
+      if(test_game_won()){
+        game_state = GAME_WIN;
+      }
+      break;
+    case FIELD_FLAGGED:
+      // do nothing
+      break;
+    case FIELD_OPENED:
+      break;
+    default:
+      CRASH;
   }
-  
-  
-  
 }
 
 int game_control::get_height() const
@@ -124,8 +137,20 @@ int game_control::get_neighbour_mine_count(int x, int y) const
   return res;
 }
 
+int game_control::get_game_state() const
+{
+  return game_state;
+}
 
-
-
-
+bool game_control::test_game_won() const
+{
+  for(int y=0;y<height;y++){
+    for(int x=0;x<width;x++){
+      if(get_field_state(x,y)==FIELD_CLOSED && !is_mine(x,y)){
+        return false;
+      }
+    }
+  }
+  return true;
+}
 

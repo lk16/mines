@@ -3,7 +3,6 @@
 
 #include <cassert>
 #include <cstdlib>
-#include <cmath>
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -45,6 +44,19 @@
 #define DEFAULT_WIDTH      (10)
 #define DEFAULT_MINE_COUNT (10)
 
+enum{
+  FIELD_CLOSED,
+  FIELD_FLAGGED,
+  FIELD_OPENED
+};
+
+enum{
+  GAME_RESET,
+  GAME_STARTED,
+  GAME_LOSE,
+  GAME_WIN
+};
+
 
 template<class T>
 inline T min(T x,T y){
@@ -75,11 +87,6 @@ inline T fromstr(std::string x){
   T temp;
   buff >> temp;
   return temp;
-}
-
-/* returns with high probablility values close to min */
-inline int rand_exp(int min,int max,double rate){
-  return min + (max-min)*(std::log(1.0-(rand()/(double)RAND_MAX))/(-rate));
 }
 
 #endif

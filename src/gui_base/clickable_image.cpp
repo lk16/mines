@@ -14,10 +14,6 @@ clickable_image::clickable_image(main_window* par, int _x,int _y, const std::str
 
 bool clickable_image::on_button_press_event(GdkEventButton* _event)
 {
-  if(parent->control.is_dead()){
-    return true;
-  }
-  
   switch(_event->button){ // left click
     case 1: 
       // left click

@@ -115,7 +115,7 @@ void main_window::update_fields()
   for(int i=0;i<(int)fields.size();i++){
     int x = i % DEFAULT_WIDTH;
     int y = i / DEFAULT_WIDTH;
-    switch(control.get_state(x,y)){
+    switch(control.get_field_state(x,y)){
       case FIELD_CLOSED:
         imagefile = "closed.png";
         break;
@@ -124,7 +124,7 @@ void main_window::update_fields()
         break;
       case FIELD_OPENED:
         if(control.is_mine(x,y)){
-          imagefile = "mine.png";
+          imagefile = (control.get_game_state()==GAME_WIN ? "flag.png" : "mine.png");
         }
         else{
           imagefile = tostr<int>(control.get_neighbour_mine_count(x,y)) + ".png";
