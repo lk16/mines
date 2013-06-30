@@ -23,6 +23,10 @@ set(CMAKE_CXX_FLAGS
 ) 
 
 SET(objects
+  gui_base/clickable_image.cpp
+  gui/main_window.cpp
+  gui/settings_dialog.cpp
+  game/game_control.cpp
   main/mines.cpp
 )
 
@@ -32,11 +36,11 @@ include_directories(${GTKMM_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 
-ADD_EXECUTABLE(../squared
+ADD_EXECUTABLE(../mines
   ${objects}
 )
 
-target_link_libraries(../squared
+target_link_libraries(../mines
   ${GTKMM_LIBRARIES}
 )
 

@@ -41,31 +41,10 @@
 /// subdirectory where xml files containing ui are stored
 #define UI_PATH std::string("./xml/")
 
-/// size of othello field, assuming width==height
-#define FIELD_SIZE (8)
+#define DEFAULT_HEIGHT     (10)
+#define DEFAULT_WIDTH      (10)
+#define DEFAULT_MINE_COUNT (10)
 
-/// total number of fields 
-#define TOTAL_FIELDS (FIELD_SIZE*FIELD_SIZE)
-
-/// perfect score factor
-#define EXACT_SCORE_FACTOR (1000)
-
-/// heighest possible heuristic value
-#define MAX_HEURISTIC (EXACT_SCORE_FACTOR * TOTAL_FIELDS)
-
-/// lowest possible heuristic value
-#define MIN_HEURISTIC (-1 * MAX_HEURISTIC)
-
-enum color{
-  BLACK = 0,
-  WHITE = 1,
-  EMPTY = 2
-};
-
-inline color opponent(color c){
-  assert(c==WHITE || c==BLACK);
-  return ((c==BLACK) ? WHITE : BLACK);
-}
 
 template<class T>
 inline T min(T x,T y){

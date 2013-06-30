@@ -2,8 +2,8 @@
 /usr/include/gtk-2.0
 /usr/include/glib-2.0
 /usr/include/glib-2.0/glib
+/usr/include/gtkmm-2.4/
 /usr/lib/openmpi/include
-/usr/lib/glibmm-2.4/include
 /usr/lib/glibmm-2.4/include
 /usr/lib/glib-2.0/include
 /home/luuk/program_lol/mines/src

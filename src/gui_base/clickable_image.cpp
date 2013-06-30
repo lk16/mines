@@ -1,9 +1,11 @@
 #include "gui_base/clickable_image.hpp"
+#include "gui/main_window.hpp"
 
-clickable_image::clickable_image(main_window* par, int _field_id, const std::string& imagefile): 
+clickable_image::clickable_image(main_window* par, int _x,int _y, const std::string& imagefile): 
   Gtk::EventBox(),
   image(imagefile),
-  field_id(_field_id),
+  x(_x),
+  y(_y),
   parent(par)
 {
   add(image);
@@ -12,12 +14,33 @@ clickable_image::clickable_image(main_window* par, int _field_id, const std::str
 
 bool clickable_image::on_button_press_event(GdkEventButton* _event)
 {
-  parent->control.on_human_do_move(field_id);
-  _event = NULL; /* prevent compiler complaining */  
+  if(parent->control.is_dead()){
+    return true;
+  }
+  
+  switch(_event->button){ // left click
+    case 1: 
+      // left click
+      parent->control.open_field(x,y);
+      break;
+    case 3: 
+      // right click
+      parent->control.toggle_flagged(x,y);
+      break;
+    default: 
+      // do nothing
+      break;
+  }
+  parent->update_fields();
   return true;
 }
 
-void clickable_image::set(const std::string& filename)
+void clickable_image::set_image(const std::string& filename)
 {
   image.set(filename);
 }
+
+clickable_image::~clickable_image()
+{
+}
+

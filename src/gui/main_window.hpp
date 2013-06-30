@@ -10,14 +10,12 @@
 
 #include "game/game_control.hpp"
 #include "game/util.hpp"
-#include "game/board.hpp"
 
 #include "gui_base/clickable_image.hpp"
-#include "gui_base/scaling_image.hpp"
 #include "gui/settings_dialog.hpp"
 
-struct clickable_image;
-class board;
+class clickable_image;
+class game_control;
 
 class main_window:
   public Gtk::Window
@@ -51,7 +49,7 @@ protected:
   /* Member widgets: */
   Gtk::VBox vbox;
   Gtk::AspectFrame aspect_frame;
-  std::vector<std::vector<clickable_image*> > fields;
+  std::vector<clickable_image*> fields;
   
   
   /* Other */
