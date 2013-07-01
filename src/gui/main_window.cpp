@@ -121,6 +121,10 @@ void main_window::update_fields()
           imagefile = "flag.png";
           break;
         }
+        if(control.get_game_state()==GAME_LOSE && control.is_mine(x,y)){
+          imagefile = "mine.png"; 
+          break;
+        }
         imagefile = "closed.png";   
         break;
       case FIELD_FLAGGED:
