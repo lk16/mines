@@ -28,8 +28,8 @@ void game_control::game_reset()
   for(int i=0;i<(width*height);++i){
     field_state[i] = FIELD_CLOSED;
   }
-  mw->update_fields();
   game_state = GAME_RESET;
+  mw->update_fields();
 }
 
 void game_control::toggle_flagged(int x, int y)
