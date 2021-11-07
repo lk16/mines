@@ -1,0 +1,8 @@
+.kdev4/
+.kdev_include_paths
+Makefile
+build/
+main.o
+mines
+mines.kdev4
+
